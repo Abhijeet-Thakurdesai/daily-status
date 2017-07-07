@@ -1,0 +1,18 @@
+Hello all,<br><br>
+Here is what everyone has been up to: <br><br>
+
+ <hr>	
+#foreach ($status in $summary)
+  <br>
+   <b>Email ID:  </b> 	 $status.getEmail()   <br>
+   <b>Summary : </b>  <pre> <font face="Arial" size=2 > $status.getStatus() </font> </pre> 
+  <br>
+  <hr>
+  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=$status.getEmail()&su=SUBJECT&body=$status.getStatus()">Reply to $status.getEmail()</a>
+#end
+
+<br>
+Thanks,<br>
+Daily Status Tracker
+<br><br>
+PS: If your email ID is missing, please email daily.status@krishagni.com.
