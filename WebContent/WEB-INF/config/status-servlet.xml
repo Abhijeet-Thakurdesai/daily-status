@@ -49,6 +49,10 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.status.model.Status</value>
+				<value>com.status.model.Company</value>
+				<value>com.status.model.User</value>
+				<value>com.status.model.Team</value>
+				<value>com.status.model.UserTeam</value>
 			</list>
 		</property>
 
