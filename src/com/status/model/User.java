@@ -12,30 +12,30 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
 @Entity
 @Table(name="USERS")
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IDENTIFIER")
 	private Long id;
-   
+
 	@Column(name = "FIRST_NAME")
 	private String firstName;
-	
+
 	@Column(name = "LAST_NAME")
 	private String lastName;
-	
+
 	@Column(name = "EMAIL_ID", unique = true)
 	private String emailId;
-	
+
 	@OneToMany(mappedBy = "members", cascade = CascadeType.ALL)
-	private Set<Team> teams = new HashSet<Team>();
-	
+	private Set<Team> teamMembers = new HashSet<Team>();
+
+	@OneToMany(mappedBy = "leads", cascade = CascadeType.ALL)
+	private Set<Team> teamLeads = new HashSet<Team>();
+
 	public Long getId() {
 		return id;
 	}
@@ -59,7 +59,7 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
 	public String getEmailId() {
 		return emailId;
 	}
@@ -68,12 +68,20 @@ public class User {
 		this.emailId = emailId;
 	}
 
-	public Set<Team> getTeams() {
-		return teams;
+	public Set<Team> getTeamMembers() {
+		return teamMembers;
 	}
 
-	public void setTeams(Set<Team> teams) {
-		this.teams = teams;
+	public void setTeamMembers(Set<Team> teamMembers) {
+		this.teamMembers = teamMembers;
+	}
+
+	public Set<Team> getTeamLeads() {
+		return teamLeads;
+	}
+
+	public void setTeamLeads(Set<Team> teamLeads) {
+		this.teamLeads = teamLeads;
 	}
 
 }

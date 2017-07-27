@@ -19,18 +19,18 @@ import com.status.service.StatusService;
 @Service
 public class StatusServiceImpl implements StatusService {
 	HttpServletResponse response;
-	
+
 	@Autowired
 	private ErrorUtil errorCode;
-	
+
 	@Autowired
 	private StatusDao statusDao;
-	
+
 	@Transactional
 	public List<Status> getStatus(Date date) {
 		return statusDao.getStatus(date);
 	}
-	
+
 	@Transactional
 	public Status addStatus(Status status) {
 //		System.out.println("date:");

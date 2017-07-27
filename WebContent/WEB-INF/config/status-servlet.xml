@@ -29,11 +29,11 @@
 	</bean>
 
 	<context:property-placeholder location="classpath:resources/*.properties" />
-	<context:component-scan base-package="com/status"/>
+	<context:component-scan base-package="com.status"/>
 	<!-- edited here <context:annotation-config></context:annotation-config> -->
 	<mvc:annotation-driven />
 
-	<tx:annotation-driven transaction-manager="hibernateTransactionManager" />
+	<tx:annotation-driven transaction-manager="hibernateTransactionManager"/>
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -62,7 +62,6 @@
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
-
 	</bean>
 
 	<bean id="hibernateTransactionManager"
@@ -80,26 +79,16 @@
 	        </props>
 	    </property>
 	</bean>
-	
-	<bean id="jspViewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-			<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView" />
-		
-		<property name="prefix" value="/WEB-INF/views/"></property>
-		<property name="suffix" value=".jsp"></property>
-	</bean>
-	
+
 	<bean id="EmailScanner" class="com.status.wrapper.EmailScanner" />
 	<bean id="EmailSender" class="com.status.wrapper.EmailSender">
 	<property name="velocityEngine" ref="velocityEngine"/>
 	</bean>
-	
+
 	<task:scheduled-tasks>
 		<task:scheduled ref="EmailSender" method="askForStatusMail" cron="${askForStatus_cron_freq}" />
 		<!-- <task:scheduled ref="EmailSender" method="createSummary" cron="${summary_cron_freq}"/>
 				 
 		<task:scheduled ref="EmailScanner" method="getUnreadMailsAndStore" cron="${email_scan_freq}" /> -->
 	</task:scheduled-tasks>
-
 </beans>

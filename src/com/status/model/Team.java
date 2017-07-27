@@ -8,8 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import java.util.Set;
@@ -21,14 +21,14 @@ public class Team {
 	@Column(name = "IDENTIFIER")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	
+
 	@Column(name = "NAME")
 	private String name;
-	
-	@ManyToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
+
+	@OneToOne
 	@JoinColumn(name = "COMP_ID")
 	private Company company;
-	
+
 	@Column(name = "ALIAS")
 	private String alias;
 
@@ -39,7 +39,7 @@ public class Team {
             inverseJoinColumns = @JoinColumn(name = "USER_ID")
     )
 	private Set<User> leads;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(
             name = "TEAM_MEMBERS",
@@ -95,5 +95,4 @@ public class Team {
 	public void setMembers(Set<User> members) {
 		this.members = members;
 	};
-
 }
