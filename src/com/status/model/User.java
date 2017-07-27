@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @Entity
 @Table(name="USERS")
 public class User {
@@ -30,8 +33,8 @@ public class User {
 	@Column(name = "EMAIL_ID", unique = true)
 	private String emailId;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<UserTeam> userTeams = new HashSet<UserTeam>();
+	@OneToMany(mappedBy = "members", cascade = CascadeType.ALL)
+	private Set<Team> teams = new HashSet<Team>();
 	
 	public Long getId() {
 		return id;
@@ -65,11 +68,12 @@ public class User {
 		this.emailId = emailId;
 	}
 
-	public Set<UserTeam> getUserTeams() {
-		return userTeams;
+	public Set<Team> getTeams() {
+		return teams;
 	}
 
-	public void setUserTeams(Set<UserTeam> userTeams) {
-		this.userTeams = userTeams;
+	public void setTeams(Set<Team> teams) {
+		this.teams = teams;
 	}
+
 }

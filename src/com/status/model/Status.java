@@ -66,5 +66,4 @@ public class Status {
 		return "Status [id=" + id + ", email=" + email + ", date=" + date + ", status=" + status + "]";
 	}
 	
-	
 }

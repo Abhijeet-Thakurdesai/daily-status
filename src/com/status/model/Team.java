@@ -7,10 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.HashSet;
+
 import java.util.Set;
 
 @Entity
@@ -21,18 +22,32 @@ public class Team {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	
-	@ManyToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "COMP_ID")
-	private Set<Company> company = new HashSet<Company>();
-	
 	@Column(name = "NAME")
 	private String name;
-   
-	@OneToMany(mappedBy = "user")
-	@JoinColumn(name = "USER_ID")
-	private Set<UserTeam> userTeams = new HashSet<UserTeam>();
 	
+	@ManyToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "COMP_ID")
+	private Company company;
 	
+	@Column(name = "ALIAS")
+	private String alias;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+            name = "TEAM_LEADS",
+            joinColumns = @JoinColumn(name = "TEAM_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID")
+    )
+	private Set<User> leads;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+            name = "TEAM_MEMBERS",
+            joinColumns = @JoinColumn(name = "TEAM_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID")
+    )
+	private Set<User> members;
+
 	public Long getId() {
 		return id;
 	}
@@ -40,15 +55,7 @@ public class Team {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	public Set<Company> getCompany() {
-		return company;
-	}
 
-	public void setCompany(Set<Company> company) {
-		this.company = company;
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -56,12 +63,37 @@ public class Team {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public Set<UserTeam> getUserTeams() {
-		return userTeams;
+
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setUserTeams(Set<UserTeam> userTeams) {
-		this.userTeams = userTeams;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public Set<User> getLeads() {
+		return leads;
+	}
+
+	public void setLeads(Set<User> leads) {
+		this.leads = leads;
+	}
+
+	public Set<User> getMembers() {
+		return members;
+	}
+
+	public void setMembers(Set<User> members) {
+		this.members = members;
+	};
+
 }

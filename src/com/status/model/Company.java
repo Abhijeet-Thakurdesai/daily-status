@@ -7,8 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name = "COMPANIES")
+@Component
 public class Company {
 	
 	@Id
@@ -33,6 +36,11 @@ public class Company {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Company [id=" + id + ", name=" + name + "]";
 	}
 
 }

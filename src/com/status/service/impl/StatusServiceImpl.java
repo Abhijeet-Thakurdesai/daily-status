@@ -1,12 +1,15 @@
 package com.status.service.impl;
 
 import java.util.Date;
-import java.util.Calendar;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.status.dao.StatusDao;
 import com.status.domain.ErrorUtil;
 import com.status.domain.StatusErrorCode;
@@ -15,13 +18,14 @@ import com.status.service.StatusService;
 
 @Service
 public class StatusServiceImpl implements StatusService {
+	HttpServletResponse response;
 	
 	@Autowired
 	private ErrorUtil errorCode;
 	
 	@Autowired
 	private StatusDao statusDao;
-
+	
 	@Transactional
 	public List<Status> getStatus(Date date) {
 		return statusDao.getStatus(date);
@@ -40,4 +44,5 @@ public class StatusServiceImpl implements StatusService {
 		}	
 		return status;
 	}
+
 }
