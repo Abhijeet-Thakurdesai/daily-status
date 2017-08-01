@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "IDENTIFIER")
 	private Long id;
 
@@ -30,12 +30,11 @@ public class User {
 	@Column(name = "EMAIL_ID", unique = true)
 	private String emailId;
 
-	@OneToMany(mappedBy = "members", cascade = CascadeType.ALL)
-	private Set<Team> teamMembers = new HashSet<Team>();
+	@ManyToMany(mappedBy = "members", cascade = CascadeType.ALL)
+	private Set<Team> teamWhereMembers = new HashSet<>();
 
-	@OneToMany(mappedBy = "leads", cascade = CascadeType.ALL)
-	private Set<Team> teamLeads = new HashSet<Team>();
-
+	@ManyToMany(mappedBy = "leads", cascade = CascadeType.ALL)
+	private Set<Team> teamWhereLeads = new HashSet<>();
 	public Long getId() {
 		return id;
 	}
@@ -68,20 +67,20 @@ public class User {
 		this.emailId = emailId;
 	}
 
-	public Set<Team> getTeamMembers() {
-		return teamMembers;
+	public Set<Team> getTeamWhereMembers() {
+		return teamWhereMembers;
 	}
 
-	public void setTeamMembers(Set<Team> teamMembers) {
-		this.teamMembers = teamMembers;
+	public void setTeamWhereMembers(Set<Team> teamWhereMembers) {
+		this.teamWhereMembers = teamWhereMembers;
 	}
 
-	public Set<Team> getTeamLeads() {
-		return teamLeads;
+	public Set<Team> getTeamWhereLeads() {
+		return teamWhereLeads;
 	}
 
-	public void setTeamLeads(Set<Team> teamLeads) {
-		this.teamLeads = teamLeads;
+	public void setTeamWhereLeads(Set<Team> teamWhereLeads) {
+		this.teamWhereLeads = teamWhereLeads;
 	}
 
 }

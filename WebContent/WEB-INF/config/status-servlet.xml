@@ -60,8 +60,17 @@
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.connection.autocommit">true</prop>
 			</props>
 		</property>
+	</bean>
+
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="prefix" value="/WEB-INF/views/"/>
+		<property name="suffix" value=".jsp"/>
 	</bean>
 
 	<bean id="hibernateTransactionManager"
@@ -84,6 +93,7 @@
 	<bean id="EmailSender" class="com.status.wrapper.EmailSender">
 	<property name="velocityEngine" ref="velocityEngine"/>
 	</bean>
+	<bean id="teamFactory" class="com.status.factory.TeamFactory"/>
 
 	<task:scheduled-tasks>
 		<task:scheduled ref="EmailSender" method="askForStatusMail" cron="${askForStatus_cron_freq}" />

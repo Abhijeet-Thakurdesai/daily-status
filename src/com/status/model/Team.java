@@ -8,10 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,7 +21,7 @@ import java.util.Set;
 public class Team {
 	@Id
 	@Column(name = "IDENTIFIER")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 
 	@Column(name = "NAME")
@@ -32,7 +34,7 @@ public class Team {
 	@Column(name = "ALIAS")
 	private String alias;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
             name = "TEAM_LEADS",
             joinColumns = @JoinColumn(name = "TEAM_ID"),
@@ -40,10 +42,10 @@ public class Team {
     )
 	private Set<User> leads;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
             name = "TEAM_MEMBERS",
-            joinColumns = @JoinColumn(name = "TEAM_ID"),
+            joinColumns = @JoinColumn(name = "TEAM_ID" ),
             inverseJoinColumns = @JoinColumn(name = "USER_ID")
     )
 	private Set<User> members;
@@ -94,5 +96,6 @@ public class Team {
 
 	public void setMembers(Set<User> members) {
 		this.members = members;
-	};
+	}
+
 }
