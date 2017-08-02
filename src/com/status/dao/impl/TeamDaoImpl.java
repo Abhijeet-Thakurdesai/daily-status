@@ -8,10 +8,10 @@ import com.status.dao.TeamDao;
 import com.status.model.Team;
 
 @Repository("teamDao")
-public class TeamDaoImpl implements TeamDao{
+public class TeamDaoImpl implements TeamDao {
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public void saveOrUpdate(Team team) {
 		sessionFactory.getCurrentSession().saveOrUpdate(team);

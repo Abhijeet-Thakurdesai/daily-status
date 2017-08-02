@@ -8,7 +8,7 @@ public class TeamDetail {
 	private Long id;
 
 	private String name;
-	
+
 	private String companyName;
 
 	private String alias;

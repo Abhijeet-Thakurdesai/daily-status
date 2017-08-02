@@ -58,18 +58,6 @@ public class StatusServiceImpl implements StatusService {
 	@Transactional
 	public TeamDetail createTeam(TeamDetail team) {
 		try {
-			if (StringUtils.isBlank(team.getName()))  {
-				throw new TeamModuleException("Team Name can not be blank or Empty");
-			}
-			if (StringUtils.isBlank(team.getCompanyName())) {
-				throw new TeamModuleException("Company name can not be blank or Empty");
-			}
-			if (StringUtils.isBlank(team.getAlias())) {
-				throw new TeamModuleException("alias can not be blank or Empty");
-			}
-			if (CollectionUtils.isEmpty(team.getMembers()) || CollectionUtils.isEmpty(team.getLeaders())) {
-				throw new TeamModuleException("Team must have at least one member or leader");
-			}
 			Team newTeam = teamFactory.createTeam(team);
 			teamDao.saveOrUpdate(newTeam);
 			return TeamDetail.from(newTeam);

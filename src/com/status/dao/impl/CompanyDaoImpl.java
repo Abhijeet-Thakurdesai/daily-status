@@ -10,10 +10,10 @@ import com.status.model.Company;
 
 @Repository("companyDao")
 public class CompanyDaoImpl  implements ComapnyDao{
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public Company getCompanyByName(String name) {
 		Query query= sessionFactory.getCurrentSession().createQuery("from Company where name=:name").setParameter("name", name);
