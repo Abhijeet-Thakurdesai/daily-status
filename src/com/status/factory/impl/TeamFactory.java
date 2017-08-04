@@ -1,10 +1,12 @@
-package com.status.factory;
+package com.status.factory.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import com.status.dao.ComapnyDao;
+import com.status.error.ErrorUtil;
+import com.status.error.StatusErrorCode;
 import com.status.events.TeamDetail;
 import com.status.exception.TeamModuleException;
 import com.status.model.Company;
@@ -14,6 +16,9 @@ public class TeamFactory {
 
 	@Autowired
 	private ComapnyDao companyDao;
+	
+	@Autowired
+	private ErrorUtil errorCode;
 
 	public ComapnyDao getCompanyDao() {
 		return companyDao;
@@ -35,12 +40,12 @@ public class TeamFactory {
 
 	private void setCompany(TeamDetail detail,Team newTeam) throws TeamModuleException {
 		if (StringUtils.isBlank(detail.getCompanyName())) {
-			throw new TeamModuleException("Company name can Not be blank or Empty");
+			throw new TeamModuleException(errorCode.getError(StatusErrorCode.company_name_required));
 		}
 
 		Company company = companyDao.getCompanyByName(detail.getCompanyName());
 		if (company == null) {
-			throw new TeamModuleException("Company name "+ detail.getCompanyName() +" does not exist");
+			throw new TeamModuleException(errorCode.getError(StatusErrorCode.company_not_found, detail.getCompanyName()));
 		}
 
 		newTeam.setCompany(company);
@@ -48,7 +53,7 @@ public class TeamFactory {
 
 	private void setName(TeamDetail detail,Team newTeam) throws TeamModuleException {
 		if (StringUtils.isBlank(detail.getName())) {
-			throw new TeamModuleException("Team Name can Not be blank or Empty");
+			throw new TeamModuleException(errorCode.getError(StatusErrorCode.team_name_required));
 		}
 
 		newTeam.setName(detail.getName());
@@ -56,14 +61,15 @@ public class TeamFactory {
 
 	private void setAlias(TeamDetail detail,Team newTeam) throws TeamModuleException {
 		if (StringUtils.isBlank(detail.getAlias())) {
-			throw new TeamModuleException("Team alias name can Not be blank or Empty");
+			throw new TeamModuleException(errorCode.getError(StatusErrorCode.alias_name_required));
 		}
+
 		newTeam.setAlias(detail.getAlias());
 	}
 
 	private void setTeamLeaders(TeamDetail detail, Team newTeam) throws TeamModuleException {
 		if (CollectionUtils.isEmpty(detail.getLeaders())) {
-			throw new TeamModuleException("Team must have at least one Leader");
+			throw new TeamModuleException(errorCode.getError(StatusErrorCode.team_leader_required));
 		}
 
 		newTeam.setLeads(detail.getLeaders());
@@ -71,7 +77,7 @@ public class TeamFactory {
 
 	private void setTeamMembers(TeamDetail detail, Team newTeam) throws TeamModuleException {
 		if (CollectionUtils.isEmpty(detail.getMembers())) {
-			throw new TeamModuleException("Team must have at least one Member");
+			throw new TeamModuleException(errorCode.getError(StatusErrorCode.team_member_required));
 		}
 
 		newTeam.setMembers(detail.getMembers());

@@ -1,4 +1,4 @@
-package com.status.domain;
+package com.status.error;
 
 import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,5 +13,8 @@ public class ErrorUtil {
 	public String getError(StatusErrorCode error) {
 		return errMessages.getProperty(error.getCode());
 	}
-		
+
+	public String getError(StatusErrorCode error, String params) {
+		return errMessages.getProperty(error.getCode(), params);
+	}
 }

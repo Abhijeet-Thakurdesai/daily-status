@@ -1,4 +1,4 @@
-package com.status.domain;
+package com.status.error;
 
 public interface ErrorCode {
 	String getCode();

@@ -57,10 +57,10 @@
 
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<prop key="hibernate.connection.autocommit">true</prop>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.connection.autocommit">${hibernate.connection.autocommit}</prop>
 			</props>
 		</property>
 	</bean>
@@ -94,6 +94,7 @@
 	<property name="velocityEngine" ref="velocityEngine"/>
 	</bean>
 	<bean id="teamFactory" class="com.status.factory.TeamFactory"/>
+	<bean id="errorUtil" class="com.status.error.ErrorUtil"/>
 
 	<task:scheduled-tasks>
 		<task:scheduled ref="EmailSender" method="askForStatusMail" cron="${askForStatus_cron_freq}" />
