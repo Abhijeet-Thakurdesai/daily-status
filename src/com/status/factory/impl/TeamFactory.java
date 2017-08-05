@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
-import com.status.dao.ComapnyDao;
+import com.status.dao.CompanyDao;
 import com.status.error.ErrorUtil;
 import com.status.error.StatusErrorCode;
 import com.status.events.TeamDetail;
@@ -15,16 +15,16 @@ import com.status.model.Team;
 public class TeamFactory {
 
 	@Autowired
-	private ComapnyDao companyDao;
-	
+	private CompanyDao companyDao;
+
 	@Autowired
 	private ErrorUtil errorCode;
 
-	public ComapnyDao getCompanyDao() {
+	public CompanyDao getCompanyDao() {
 		return companyDao;
 	}
 
-	public void setCompanyDao(ComapnyDao companyDao) {
+	public void setCompanyDao(CompanyDao companyDao) {
 		this.companyDao = companyDao;
 	}
 

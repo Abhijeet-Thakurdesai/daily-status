@@ -13,7 +13,8 @@ public enum StatusErrorCode implements ErrorCode{
 	last_name_required,
 	email_id_already_used,
 	team_required,
-	invalid_team;
+	invalid_team,
+	invalid_company;
 
 	@Override
 	public String getCode() {

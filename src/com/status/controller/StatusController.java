@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.status.events.TeamDetail;
+import com.status.events.UserDetail;
+import com.status.model.Company;
 import com.status.model.Status;
-import com.status.model.Team;
 import com.status.service.StatusService;
 
 @Controller
@@ -38,9 +38,16 @@ public class StatusController {
 		return statusSvc.addStatus(status);		
 	}
 
-	@RequestMapping(value="/create_team",method = RequestMethod.POST)
+	@RequestMapping(value="/create_team", method = RequestMethod.POST)
 	@ResponseBody
 	public TeamDetail createTeam(@RequestBody TeamDetail team) {
 		return statusSvc.createTeam(team);
 	}
+
+	@RequestMapping(value="/create_user", method = RequestMethod.POST)
+	@ResponseBody
+	public UserDetail createUser(@RequestBody UserDetail user) {
+		return statusSvc.createUser(user);
+	}
+
 }

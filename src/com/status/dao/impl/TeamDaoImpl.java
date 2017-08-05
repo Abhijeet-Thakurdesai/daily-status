@@ -1,8 +1,8 @@
 package com.status.dao.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import org.h2.engine.User;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +28,26 @@ public class TeamDaoImpl implements TeamDao {
 
 	@Override
 	public Team getTeam(Long companyId, String teamName) {
-		Query query= sessionFactory.getCurrentSession().createQuery("from Team where company.id=:companyId and name=:teamName").setParameter("companyId", companyId ).setParameter("teamName", teamName );
+		Query query= sessionFactory.getCurrentSession().createQuery("from Team where company.id=:companyId and name=:teamName").setParameter("companyId", companyId ).setParameter("teamName", teamName);
 		return (Team) query.uniqueResult();
 	}
 	@Override
-	public boolean isExist(Long id) {
-		Team team = getTeam(id);
+	public boolean isExist(Long id,String name) {
+		Team team = getTeam(id, name);
 		return team != null ? true :false;
 	}
 
 	@Override
 	public Set<Team> getTeamsByIds(Set<Long> teamId) {
-		Set<Team> teams = null;
+		Set<Team> teams = new HashSet<>();
 		for (Long id : teamId) {
 			teams.add(getTeam(id));
 		}
 		return teams;
 	}
 
+	@Override
+	public String getCompanyNameById(Long teamId) {
+		return getTeam(teamId).getCompany().getName();
+	}
 }

@@ -10,13 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.status.dao.CompanyDao;
 import com.status.dao.StatusDao;
 import com.status.dao.TeamDao;
+import com.status.dao.UserDao;
 import com.status.error.ErrorUtil;
 import com.status.error.StatusErrorCode;
 import com.status.events.TeamDetail;
 import com.status.events.UserDetail;
+import com.status.factory.UserFactory;
 import com.status.factory.impl.TeamFactory;
+import com.status.model.Company;
 import com.status.model.Status;
 import com.status.model.Team;
 import com.status.model.User;
@@ -36,7 +40,16 @@ public class StatusServiceImpl implements StatusService {
 	private TeamDao teamDao;
 
 	@Autowired
+	private UserDao userDao;
+
+	@Autowired
+	private CompanyDao companyDao;
+
+	@Autowired
 	private TeamFactory teamFactory;
+
+	@Autowired
+	private UserFactory userFactory;
 
 	@Transactional
 	public List<Status> getStatus(Date date) {
@@ -68,12 +81,23 @@ public class StatusServiceImpl implements StatusService {
 	}
 
 	@Override
-	public User createUser(UserDetail user) {
+	@Transactional
+	public UserDetail createUser(UserDetail detail) {
 		try {
-			User user = 
+			User newUser = userFactory.createUser(detail);
+			for(Team team :newUser.getTeamWhereLeads()) {
+				team.getLeads().add(newUser);
+				teamDao.saveOrUpdate(team);
+			}
+			for(Team team :newUser.getTeamWhereMembers()) {
+				team.getMembers().add(newUser);
+				teamDao.saveOrUpdate(team);
+			}
+			userDao.saveOrUpdate(newUser);
+			return UserDetail.from(newUser);
 		} catch (Exception e) {
-			
+			System.out.println(e.getMessage());
+			return null;
 		}
-		return null;
 	}
 }

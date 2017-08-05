@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ErrorUtil {
-	
+
 	@Autowired
 	private  Properties errMessages;
-		
+
 	public String getError(StatusErrorCode error) {
 		return errMessages.getProperty(error.getCode());
 	}
