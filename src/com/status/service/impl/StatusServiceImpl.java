@@ -79,6 +79,36 @@ public class StatusServiceImpl implements StatusService {
 			return null;
 		}
 	}
+	
+	
+	@Transactional
+	public Company createCompany(Company company) {
+		try {
+			companyDao.saveOrUpdate(company);
+			return company;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+	
+	
+	@Transactional
+	public Team getTeam(String email){
+		return teamDao.getTeam(email);
+		// for returning team detail
+		/*
+		try {
+			Team newTeam = teamDao.getTeam(email);
+			return TeamDetail.from(newTeam);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+		 */
+	}
+	
 
 	@Override
 	@Transactional

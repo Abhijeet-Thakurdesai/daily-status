@@ -7,6 +7,7 @@ import com.status.events.TeamDetail;
 import com.status.events.UserDetail;
 import com.status.model.Company;
 import com.status.model.Status;
+import com.status.model.Team;
 
 public interface StatusService {
 	
@@ -17,5 +18,9 @@ public interface StatusService {
 	TeamDetail createTeam(TeamDetail team);
 
 	UserDetail createUser(UserDetail user);
+	
+	Company createCompany(Company company);
+	
+	Team getTeam(String email);
 
 }

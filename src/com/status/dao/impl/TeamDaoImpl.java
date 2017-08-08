@@ -31,6 +31,14 @@ public class TeamDaoImpl implements TeamDao {
 		Query query= sessionFactory.getCurrentSession().createQuery("from Team where company.id=:companyId and name=:teamName").setParameter("companyId", companyId ).setParameter("teamName", teamName);
 		return (Team) query.uniqueResult();
 	}
+	
+	@Override
+	public Team getTeam(String email) {
+		Query query= sessionFactory.getCurrentSession().createQuery("from Team where alias=:email").setParameter("email", email );
+		return (Team) query.uniqueResult();
+	}
+	
+	
 	@Override
 	public boolean isExist(Long id,String name) {
 		Team team = getTeam(id, name);

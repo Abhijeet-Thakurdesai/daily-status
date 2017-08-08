@@ -11,6 +11,8 @@ public interface TeamDao {
 	Team getTeam(Long id);
 
 	Team getTeam(Long companyId, String teamName);
+	
+	Team getTeam(String email);
 
 	boolean isExist(Long id, String companyName);
 

@@ -24,18 +24,29 @@ public class StatusController {
 	@Autowired
 	private StatusService statusSvc;
 		
-	@RequestMapping(method = RequestMethod.GET)
+	//@RequestMapping(method = RequestMethod.GET)
+//	@ResponseBody
+//	public List<Status> getStatus(
+//		@RequestParam(value = "date",required = false)
+//		@DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+//		return statusSvc.getStatus(date);
+//	}
+	
+	
+	//for checking of method getTeam 
+	@RequestMapping(value="/vll",method = RequestMethod.GET)
 	@ResponseBody
-	public List<Status> getStatus(
-		@RequestParam(value = "date",required = false)
-		@DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-		return statusSvc.getStatus(date);
+	public String getTeam(){
+		return statusSvc.getTeam("abc@gmail").getName();
 	}
+	
+	
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public Status addStatus(@RequestBody Status status) {		
-		return statusSvc.addStatus(status);		
+		return statusSvc.addStatus(status);	
+		
 	}
 
 	@RequestMapping(value="/create_team", method = RequestMethod.POST)
@@ -48,6 +59,12 @@ public class StatusController {
 	@ResponseBody
 	public UserDetail createUser(@RequestBody UserDetail user) {
 		return statusSvc.createUser(user);
+	}
+	
+	@RequestMapping(value="/create_company", method = RequestMethod.POST)
+	@ResponseBody
+	public Company createTeam(@RequestBody Company company) {
+		return statusSvc.createCompany(company);
 	}
 
 }
