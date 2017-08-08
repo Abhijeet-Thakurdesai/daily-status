@@ -15,6 +15,7 @@ import javax.mail.search.FlagTerm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.status.model.Status;
+import com.status.model.Team;
 import com.status.service.StatusService;
 import com.sun.mail.imap.IMAPFolder;
 
@@ -65,6 +66,8 @@ public class EmailScanner {
 			for (Message msg : messages) {
 				String emailSubject = msg.getSubject();
 				Address[] from = msg.getFrom();
+				Address[] to=msg.getAllRecipients();
+				Team team=statusSvc.getTeam(to[0].toString());
 				String senderEmailId = from == null ? null : ((InternetAddress) from[0]).getAddress();
 				if (((emailSubject).matches("(.*)" + expectedSubject + "(.*)"))
 						&& !senderEmailId.equalsIgnoreCase(getProp(SCANNER_ID))) {
