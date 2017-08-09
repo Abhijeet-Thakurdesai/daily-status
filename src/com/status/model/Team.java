@@ -29,7 +29,7 @@ public class Team {
 	@JoinColumn(name = "COMP_ID")
 	private Company company;
 
-	@Column(name = "ALIAS")
+	@Column(name = "ALIAS", unique = true)
 	private String alias;
 
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -95,5 +95,4 @@ public class Team {
 	public void setMembers(Set<User> members) {
 		this.members = members;
 	}
-
 }

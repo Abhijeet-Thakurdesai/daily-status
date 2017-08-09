@@ -1,5 +1,6 @@
 package com.status.factory.impl;
 
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -67,7 +68,7 @@ public class UserFactoryImpl implements UserFactory {
 
 	private void setEmailId(UserDetail detail, User user) throws TeamModuleException {
 		if (userDao.getByEmailId(detail.getEmailId()) != null) {
-			throw new TeamModuleException(errorCode.getError(StatusErrorCode.email_id_already_used));
+			throw new TeamModuleException(MessageFormat.format(errorCode.getError(StatusErrorCode.email_id_already_used), detail.getEmailId()));
 		}
 
 		user.setEmailId(detail.getEmailId());
@@ -109,7 +110,7 @@ public class UserFactoryImpl implements UserFactory {
 	private void isValidTeam(Long id, Set<String> teams) throws TeamModuleException {
 		for (String team : teams) {
 			if (!teamDao.isExist(id, team)) {
-				throw new TeamModuleException(errorCode.getError(StatusErrorCode.invalid_team, team));
+				throw new TeamModuleException(MessageFormat.format(errorCode.getError(StatusErrorCode.invalid_team), team));
 			}
 		}
 	}
@@ -117,8 +118,7 @@ public class UserFactoryImpl implements UserFactory {
 	private void setCompany(UserDetail detail) throws TeamModuleException {
 		Company company = companyDao.getCompanyByName(detail.getCompanyName());
 		if(company == null) {
-			throw new TeamModuleException(errorCode.getError(StatusErrorCode.invalid_company, detail.getCompanyName()));
+			throw new TeamModuleException(MessageFormat.format(errorCode.getError(StatusErrorCode.invalid_company), detail.getCompanyName()));
 		}
-
 	}
 }

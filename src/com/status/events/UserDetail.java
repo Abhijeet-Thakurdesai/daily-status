@@ -3,15 +3,10 @@ package com.status.events;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
-import com.status.dao.TeamDao;
 import com.status.model.Team;
 import com.status.model.User;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 public class UserDetail {
 	private Long id;
@@ -83,7 +78,7 @@ public class UserDetail {
 	public void setTeamWhereMembers(Set<String> teamWhereMembers) {
 		this.teamWhereMembers = teamWhereMembers;
 	}
-	
+
 	public static UserDetail from(User user) {
 		Team team = null;
 		UserDetail detail = new UserDetail();
@@ -112,5 +107,4 @@ public class UserDetail {
 		}
 		return teamNames;
 	}
-
 }

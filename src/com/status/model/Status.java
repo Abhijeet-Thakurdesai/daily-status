@@ -28,7 +28,7 @@ public class Status {
 	
 	@Column(name = "STATUS",columnDefinition = "VARCHAR(5000)")
 	private String status;
-	
+
 	public int getId() {
 		return id;
 	}

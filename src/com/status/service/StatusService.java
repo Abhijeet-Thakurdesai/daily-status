@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.status.events.TeamDetail;
 import com.status.events.UserDetail;
-import com.status.model.Company;
 import com.status.model.Status;
 
 public interface StatusService {

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.status.events.TeamDetail;
 import com.status.events.UserDetail;
-import com.status.model.Company;
 import com.status.model.Status;
 import com.status.service.StatusService;
 
@@ -49,5 +48,4 @@ public class StatusController {
 	public UserDetail createUser(@RequestBody UserDetail user) {
 		return statusSvc.createUser(user);
 	}
-
 }

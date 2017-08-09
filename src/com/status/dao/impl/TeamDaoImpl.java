@@ -27,14 +27,15 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
+	public Team getTeam(String companyName, String teamName) {
+		Query query= sessionFactory.getCurrentSession().createQuery("from Team where company.name=:companyName and name=:teamName").setParameter("companyName", companyName).setParameter("teamName", teamName);
+		return (Team) query.uniqueResult();
+	}
+
+	@Override
 	public Team getTeam(Long companyId, String teamName) {
 		Query query= sessionFactory.getCurrentSession().createQuery("from Team where company.id=:companyId and name=:teamName").setParameter("companyId", companyId ).setParameter("teamName", teamName);
 		return (Team) query.uniqueResult();
-	}
-	@Override
-	public boolean isExist(Long id,String name) {
-		Team team = getTeam(id, name);
-		return team != null ? true :false;
 	}
 
 	@Override
@@ -47,7 +48,14 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public String getCompanyNameById(Long teamId) {
-		return getTeam(teamId).getCompany().getName();
+	public Team getTeamByAlias(String alias) {
+		Query query= sessionFactory.getCurrentSession().createQuery("from Team where alias=:alias").setParameter("alias", alias);
+		return (Team) query.uniqueResult();
+	}
+
+	@Override
+	public boolean isExist(Long id,String name) {
+		Team team = getTeam(id, name);
+		return team != null ? true :false;
 	}
 }

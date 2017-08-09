@@ -1,16 +1,14 @@
 package com.status.service.impl;
 
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.status.dao.CompanyDao;
 import com.status.dao.StatusDao;
 import com.status.dao.TeamDao;
 import com.status.dao.UserDao;
@@ -18,9 +16,9 @@ import com.status.error.ErrorUtil;
 import com.status.error.StatusErrorCode;
 import com.status.events.TeamDetail;
 import com.status.events.UserDetail;
+import com.status.exception.TeamModuleException;
+import com.status.factory.TeamFactory;
 import com.status.factory.UserFactory;
-import com.status.factory.impl.TeamFactory;
-import com.status.model.Company;
 import com.status.model.Status;
 import com.status.model.Team;
 import com.status.model.User;
@@ -28,7 +26,6 @@ import com.status.service.StatusService;
 
 @Service
 public class StatusServiceImpl implements StatusService {
-	HttpServletResponse response;
 
 	@Autowired
 	private ErrorUtil errorCode;
@@ -43,9 +40,6 @@ public class StatusServiceImpl implements StatusService {
 	private UserDao userDao;
 
 	@Autowired
-	private CompanyDao companyDao;
-
-	@Autowired
 	private TeamFactory teamFactory;
 
 	@Autowired
@@ -54,6 +48,7 @@ public class StatusServiceImpl implements StatusService {
 	@Transactional
 	public List<Status> getStatus(Date date) {
 		return statusDao.getStatus(date);
+
 	}
 
 	@Transactional
@@ -71,7 +66,13 @@ public class StatusServiceImpl implements StatusService {
 	@Transactional
 	public TeamDetail createTeam(TeamDetail team) {
 		try {
-			Team newTeam = teamFactory.createTeam(team);
+			Team newTeam = new Team();
+			newTeam = teamDao.getTeam(team.getCompanyName(), team.getName());
+			if (newTeam != null) {
+				throw new TeamModuleException(MessageFormat.format(errorCode.getError(StatusErrorCode.team_already_exist), team.getName()));
+			}
+
+			newTeam = teamFactory.createTeam(team);
 			teamDao.saveOrUpdate(newTeam);
 			return TeamDetail.from(newTeam);
 		} catch (Exception e) {

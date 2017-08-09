@@ -10,13 +10,13 @@ public interface TeamDao {
 
 	Team getTeam(Long id);
 
-	Team getTeam(Long companyId, String teamName);
+	Team getTeam(String companyName, String TeamName);
 
-	boolean isExist(Long id, String companyName);
+	Team getTeam(Long companyId, String teamName);
 
 	Set<Team> getTeamsByIds(Set<Long> teamId);
 
-	String getCompanyNameById(Long teamId);
+	Team getTeamByAlias(String alias);
 
-
+	boolean isExist(Long id, String companyName);
 }

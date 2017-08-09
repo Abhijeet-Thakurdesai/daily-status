@@ -1,21 +1,28 @@
 package com.status.factory.impl;
 
+import java.text.MessageFormat;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import com.status.dao.CompanyDao;
+import com.status.dao.TeamDao;
 import com.status.error.ErrorUtil;
 import com.status.error.StatusErrorCode;
 import com.status.events.TeamDetail;
 import com.status.exception.TeamModuleException;
+import com.status.factory.TeamFactory;
 import com.status.model.Company;
 import com.status.model.Team;
 
-public class TeamFactory {
+public class TeamFactoryImpl implements TeamFactory {
 
 	@Autowired
 	private CompanyDao companyDao;
+
+	@Autowired
+	private TeamDao teamDao;
 
 	@Autowired
 	private ErrorUtil errorCode;
@@ -45,7 +52,7 @@ public class TeamFactory {
 
 		Company company = companyDao.getCompanyByName(detail.getCompanyName());
 		if (company == null) {
-			throw new TeamModuleException(errorCode.getError(StatusErrorCode.company_not_found, detail.getCompanyName()));
+			throw new TeamModuleException(MessageFormat.format(errorCode.getError(StatusErrorCode.company_not_found), detail.getCompanyName()));
 		}
 
 		newTeam.setCompany(company);
@@ -62,6 +69,11 @@ public class TeamFactory {
 	private void setAlias(TeamDetail detail,Team newTeam) throws TeamModuleException {
 		if (StringUtils.isBlank(detail.getAlias())) {
 			throw new TeamModuleException(errorCode.getError(StatusErrorCode.alias_name_required));
+		}
+
+		Team team = teamDao.getTeamByAlias(detail.getAlias());
+		if (team != null) {
+			throw new TeamModuleException(MessageFormat.format(errorCode.getError(StatusErrorCode.alias_already_used), detail.getAlias()));
 		}
 
 		newTeam.setAlias(detail.getAlias());

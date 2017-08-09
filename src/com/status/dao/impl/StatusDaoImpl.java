@@ -2,6 +2,7 @@ package com.status.dao.impl;
 
 import java.util.Date;
 import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -16,7 +17,7 @@ public class StatusDaoImpl implements StatusDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
 	public List<Status> getStatus(Date date) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Status.class);
 		if (date != null) {
@@ -24,7 +25,7 @@ public class StatusDaoImpl implements StatusDao {
 		}		
 		return criteria.list();		
 	}
-	
+
 	public void addStatus(Status stat) {
 		sessionFactory.getCurrentSession().save(stat);
 	}

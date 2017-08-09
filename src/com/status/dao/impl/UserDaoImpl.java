@@ -10,7 +10,7 @@ import com.status.dao.UserDao;
 
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -24,5 +24,4 @@ public class UserDaoImpl implements UserDao {
 		Query query= sessionFactory.getCurrentSession().createQuery("from User where emailId=:emailId").setParameter("emailId",email);
 		return (User) query.uniqueResult();
 	}
-
 }

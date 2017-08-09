@@ -93,7 +93,7 @@
 	<bean id="EmailSender" class="com.status.wrapper.EmailSender">
 	<property name="velocityEngine" ref="velocityEngine"/>
 	</bean>
-	<bean id="teamFactory" class="com.status.factory.impl.TeamFactory"/>
+	<bean id="teamFactory" class="com.status.factory.impl.TeamFactoryImpl"/>
 	<bean id="userFactory" class="com.status.factory.impl.UserFactoryImpl"/>
 	<bean id="errorUtil" class="com.status.error.ErrorUtil"/>
 

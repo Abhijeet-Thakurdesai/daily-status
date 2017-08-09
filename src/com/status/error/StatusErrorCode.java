@@ -9,12 +9,15 @@ public enum StatusErrorCode implements ErrorCode{
 	company_name_required,
 	company_not_found,
 	alias_name_required,
+	alias_already_used,
 	first_name_required,
 	last_name_required,
 	email_id_already_used,
 	team_required,
 	invalid_team,
-	invalid_company;
+	invalid_company,
+	invalid_memeber_list,
+	team_already_exist;
 
 	@Override
 	public String getCode() {
