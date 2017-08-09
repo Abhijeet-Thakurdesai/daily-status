@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,6 +32,9 @@ public class User {
 
 	@Column(name = "EMAIL_ID", unique = true)
 	private String emailId;
+	
+	@OneToMany
+	private Set<Status> statuslist = new HashSet<>();
 
 	@ManyToMany(mappedBy = "members", cascade = CascadeType.ALL)
 	private Set<Team> teamWhereMembers = new HashSet<>();
@@ -77,6 +81,8 @@ public class User {
 		this.teamWhereMembers = teamWhereMembers;
 	}
 
+	
+
 	public Set<Team> getTeamWhereLeads() {
 		return teamWhereLeads;
 	}
@@ -84,5 +90,17 @@ public class User {
 	public void setTeamWhereLeads(Set<Team> teamWhereLeads) {
 		this.teamWhereLeads = teamWhereLeads;
 	}
+
+	public Set<Status> getStatuslist() {
+		return statuslist;
+	}
+
+	public void setStatuslist(Set<Status> statuslist) {
+		this.statuslist = statuslist;
+	}
+
+
+	
+	
 
 }

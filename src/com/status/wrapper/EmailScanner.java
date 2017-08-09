@@ -72,7 +72,7 @@ public class EmailScanner {
 				if (((emailSubject).matches("(.*)" + expectedSubject + "(.*)"))
 						&& !senderEmailId.equalsIgnoreCase(getProp(SCANNER_ID))) {
 					Status status = new Status();
-					status.setEmail(senderEmailId);
+			//		status.setEmail(senderEmailId);
 					status.setDate(msg.getReceivedDate());
 					String emailBody = this.getTextFromMessage(msg);
 					status.setStatus(emailBody.split("\\s(On).*\\wrote:")[0].trim());

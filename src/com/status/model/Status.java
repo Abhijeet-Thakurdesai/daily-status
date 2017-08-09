@@ -1,11 +1,19 @@
 package com.status.model;
 
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -18,9 +26,14 @@ public class Status {
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@JoinColumn(name="USER_ID")
+	@OneToOne(fetch=FetchType.EAGER)
+	private User user;
 	
-	@Column(name = "EMAIL")
-	private String email;
+	@JoinColumn(name="TEAM_ID")
+	@OneToOne(fetch=FetchType.EAGER)
+	private Team team;
 
 	@Column(name = "DATE")
 	@Type(type="date")
@@ -29,21 +42,32 @@ public class Status {
 	@Column(name = "STATUS",columnDefinition = "VARCHAR(5000)")
 	private String status;
 	
+	
+	
 	public int getId() {
 		return id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 	
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 	public Date getDate() {
 		return date;
@@ -63,7 +87,7 @@ public class Status {
 
 	@Override
 	public String toString() {
-		return "Status [id=" + id + ", email=" + email + ", date=" + date + ", status=" + status + "]";
+		return "Status [id=" + id  + ", date=" + date + ", status=" + status + "]";
 	}
 	
 }

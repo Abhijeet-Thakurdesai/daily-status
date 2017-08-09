@@ -60,8 +60,6 @@ public class StatusServiceImpl implements StatusService {
 	public Status addStatus(Status status) {
 		if (StringUtils.isBlank(status.getStatus())) {
 			status.setStatus(errorCode.getError(StatusErrorCode.invalid_status));
-		} else if (StringUtils.isBlank(status.getEmail())) {
-			status.setEmail(errorCode.getError(StatusErrorCode.invalid_email));
 		} else {
 			statusDao.addStatus(status);
 		}	
