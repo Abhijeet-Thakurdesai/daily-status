@@ -1,10 +1,14 @@
 package com.status.dao.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -34,7 +38,7 @@ public class TeamDaoImpl implements TeamDao {
 	
 	@Override
 	public Team getTeam(String email) {
-		Query query= sessionFactory.getCurrentSession().createQuery("from Team where alias=:email").setParameter("email", email );
+		Query query= sessionFactory.getCurrentSession().createQuery("from Team where recipientalias=:email").setParameter("email", email );
 		return (Team) query.uniqueResult();
 	}
 	
@@ -45,6 +49,8 @@ public class TeamDaoImpl implements TeamDao {
 		return team != null ? true :false;
 	}
 
+	
+	
 	@Override
 	public Set<Team> getTeamsByIds(Set<Long> teamId) {
 		Set<Team> teams = new HashSet<>();
@@ -57,5 +63,13 @@ public class TeamDaoImpl implements TeamDao {
 	@Override
 	public String getCompanyNameById(Long teamId) {
 		return getTeam(teamId).getCompany().getName();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Team> getTeams() {
+		// TODO Auto-generated method stub		
+		Query query = sessionFactory.getCurrentSession().createQuery("from Team");
+		return query.list();
 	}
 }

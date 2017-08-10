@@ -11,11 +11,34 @@ public class TeamDetail {
 
 	private String companyName;
 
-	private String alias;
+	private String recipientalias;
+	
+	private String senderalias;
+	
 
 	private Set<User> leaders;
 
 	private Set<User> members;
+
+	
+	
+
+
+	public String getRecipientalias() {
+		return recipientalias;
+	}
+
+	public void setRecipientalias(String recipientalias) {
+		this.recipientalias = recipientalias;
+	}
+
+	public String getSenderalias() {
+		return senderalias;
+	}
+
+	public void setSenderalias(String senderalias) {
+		this.senderalias = senderalias;
+	}
 
 	public Long getId() {
 		return id;
@@ -41,13 +64,6 @@ public class TeamDetail {
 		this.companyName = companyName;
 	}
 
-	public String getAlias() {
-		return alias;
-	}
-
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
 
 	public Set<User> getMembers() {
 		return members;
@@ -70,7 +86,8 @@ public class TeamDetail {
 
 		detail.setId(team.getId());
 		detail.setName(team.getName());
-		detail.setAlias(team.getAlias());
+		detail.setRecipientalias(team.getRecipientAlias());
+		detail.setSenderalias(team.getSenderAlias());
 		detail.setCompanyName(team.getCompany().getName());
 		detail.setLeaders(team.getLeads());
 		detail.setMembers(team.getMembers());

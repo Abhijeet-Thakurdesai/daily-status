@@ -28,11 +28,11 @@ public class Status {
 	private int id;
 
 	@JoinColumn(name="USER_ID")
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne
 	private User user;
 	
 	@JoinColumn(name="TEAM_ID")
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne
 	private Team team;
 
 	@Column(name = "DATE")

@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.status.model.Status;
 import com.status.model.Team;
+import com.status.model.User;
 import com.status.service.StatusService;
 import com.sun.mail.imap.IMAPFolder;
 
@@ -67,15 +68,19 @@ public class EmailScanner {
 				String emailSubject = msg.getSubject();
 				Address[] from = msg.getFrom();
 				Address[] to=msg.getAllRecipients();
-				Team team=statusSvc.getTeam(to[0].toString());
+				Team team=statusSvc.getTeam(((InternetAddress) to[0]).getAddress().toString());
+				//System.out.println("to is "+to[0].toString());
+				User user=statusSvc.getUser(((InternetAddress) from[0]).getAddress());
+				//System.out.println("from is"+from[0].toString());
 				String senderEmailId = from == null ? null : ((InternetAddress) from[0]).getAddress();
 				if (((emailSubject).matches("(.*)" + expectedSubject + "(.*)"))
 						&& !senderEmailId.equalsIgnoreCase(getProp(SCANNER_ID))) {
 					Status status = new Status();
-			//		status.setEmail(senderEmailId);
 					status.setDate(msg.getReceivedDate());
 					String emailBody = this.getTextFromMessage(msg);
 					status.setStatus(emailBody.split("\\s(On).*\\wrote:")[0].trim());
+					status.setUser(user);
+					status.setTeam(team);
 					statusSvc.addStatus(status);
 					logger.info(getProp(EMAIL_STORED));
 				}

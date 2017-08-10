@@ -26,6 +26,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import com.status.model.Status;
+import com.status.model.Team;
 import com.status.service.StatusService;
 
 public class EmailSender implements InitializingBean {
@@ -56,6 +57,35 @@ public class EmailSender implements InitializingBean {
 	}
 
 	public void createSummary() {
+		List<Team> teams = statusSvc.getTeams();
+		Date yesterdaysDate = getYesterdaysDate();
+		DateFormat dateFormat = new SimpleDateFormat(getProp(DATE_FORMAT));
+		for (Team team : teams){
+			String To=team.getSenderAlias();
+			String replyTo=team.getRecipientAlias();
+			
+			try {
+				setup();
+				mimeMessage.setReplyTo(InternetAddress.parse(replyTo));
+				mimeMessage.addRecipients(Message.RecipientType.TO, InternetAddress.parse(To));
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			List<Status> statusList = statusSvc.getStatus(yesterdaysDate,team);
+			if (statusList.isEmpty()) {
+				logger.info(getProp(NO_SUMMARY));
+				return;
+			}
+			sendSummaryMail(getProp(SUMMARY_SUBJECT) +"For Team:-"+team.getName() + " " + dateFormat.format(yesterdaysDate),
+					statusList);
+		}
+		
+	}
+	
+	
+/*	
+	public void createSummary() {
 		Date yesterdaysDate = getYesterdaysDate();
 		DateFormat dateFormat = new SimpleDateFormat(getProp(DATE_FORMAT));
 		List<Status> statusList = statusSvc.getStatus(yesterdaysDate);
@@ -66,7 +96,9 @@ public class EmailSender implements InitializingBean {
 		sendSummaryMail(getProp(SUMMARY_SUBJECT) + " " + dateFormat.format(yesterdaysDate),
 				statusSvc.getStatus(yesterdaysDate));
 	}
-
+*/	
+	
+/*
 	public void askForStatusMail() {
 		try {
 			logger.info(getProp(STATUS_QUERY_START_MESSAGE));
@@ -82,7 +114,29 @@ public class EmailSender implements InitializingBean {
 			logger.error(getProp(STATUS_QUERY_FAILED_MESSAGE) + e.getMessage());
 		}
 	}
+*/
+	public void askForStatusMail() throws AddressException, MessagingException {
+		setup();
+		List<Team> teams=statusSvc.getTeams();
+		for (Team team : teams){
+			String replyTo=team.getRecipientAlias();
+			String To=team.getSenderAlias();
+			mimeMessage.addRecipients(Message.RecipientType.TO, InternetAddress.parse(To));
+			mimeMessage.setReplyTo(InternetAddress.parse(replyTo));
+			logger.info(getProp(STATUS_QUERY_START_MESSAGE));
+			LocalDate localDate = LocalDate.now();
+			mimeMessage.setSubject(getProp(STATUS_QUERY_SUBJECT) + " "
+					+ DateTimeFormatter.ofPattern(getProp(DATE_FORMAT)).format(localDate));
+			String content = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, getProp(STATUS_QUERY_TMPL),
+					"UTF-8", null);
+			mimeMessage.setContent(content, "text/html; charset=utf-8");
+			Transport.send(mimeMessage);
+		}
+		logger.info(getProp(SUMMARY_MAIL_SENT));	
 
+	}
+	
+	
 	private void setup() {
 		try {
 			setUpSmtpProperties();
@@ -93,6 +147,7 @@ public class EmailSender implements InitializingBean {
 			logger.error(getProp(MAIL_SENDER_INIT_FAILED) + e.getMessage());
 		}
 	}
+	
 
 	private void sendSummaryMail(String subject, List<Status> statusList) {
 		try {
@@ -113,7 +168,7 @@ public class EmailSender implements InitializingBean {
 	private void SetupMimeMessage() throws AddressException, MessagingException {
 		mimeMessage = new MimeMessage(session);
 		mimeMessage.setFrom(new InternetAddress(getProp(SENDER_ID)));
-		mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(getProp(MAIL_RECIPIENT)));
+//		mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(getProp(MAIL_RECIPIENT)));
 
 	}
 

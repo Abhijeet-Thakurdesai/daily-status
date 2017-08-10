@@ -1,5 +1,6 @@
 package com.status.dao;
 
+import java.util.List;
 import java.util.Set;
 
 import com.status.model.Team;
@@ -19,6 +20,9 @@ public interface TeamDao {
 	Set<Team> getTeamsByIds(Set<Long> teamId);
 
 	String getCompanyNameById(Long teamId);
+	
+	List<Team> getTeams();
+	
 
 
 }

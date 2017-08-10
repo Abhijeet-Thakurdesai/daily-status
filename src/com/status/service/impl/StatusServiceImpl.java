@@ -3,6 +3,8 @@ package com.status.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +27,8 @@ import com.status.model.Status;
 import com.status.model.Team;
 import com.status.model.User;
 import com.status.service.StatusService;
+import com.status.wrapper.EmailScanner;
+import com.status.wrapper.EmailSender;
 
 @Service
 public class StatusServiceImpl implements StatusService {
@@ -51,9 +55,16 @@ public class StatusServiceImpl implements StatusService {
 	@Autowired
 	private UserFactory userFactory;
 
+	@Autowired
+	private EmailScanner emailScanner;
+	
+	@Autowired
+	private EmailSender emailSender;
+	
+	
 	@Transactional
-	public List<Status> getStatus(Date date) {
-		return statusDao.getStatus(date);
+	public List<Status> getStatus(Date date,Team team) {
+		return statusDao.getStatus(date,team);
 	}
 
 	@Transactional
@@ -66,6 +77,8 @@ public class StatusServiceImpl implements StatusService {
 		return status;
 	}
 
+	
+	
 	@Transactional
 	public TeamDetail createTeam(TeamDetail team) {
 		try {
@@ -90,6 +103,22 @@ public class StatusServiceImpl implements StatusService {
 		}
 	}
 	
+	@Transactional
+	public void check(){
+//		emailScanner.getUnreadMailsAndStore();
+		
+		emailSender.createSummary();
+//		try {
+//			emailSender.askForStatusMail();
+//		} catch (AddressException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (MessagingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+	}
+	
 	
 	@Transactional
 	public Team getTeam(String email){
@@ -107,7 +136,18 @@ public class StatusServiceImpl implements StatusService {
 		 */
 	}
 	
+	
+	@Transactional
+	public List<Team> getTeams(){
+	return teamDao.getTeams();
+	}
+	
 
+	@Transactional
+	public User getUser(String email){
+		return userDao.getByEmailId(email);
+	}
+	
 	@Override
 	@Transactional
 	public UserDetail createUser(UserDetail detail) {

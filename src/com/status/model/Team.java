@@ -31,21 +31,29 @@ public class Team {
 	@JoinColumn(name = "COMP_ID")
 	private Company company;
 
-	@Column(name = "ALIAS", unique = true)
-	private String alias;
+	@Column(name = "RECIPIENTALIAS", unique = true)
+	private String recipientAlias;
+	
+	@Column(name = "SENDERALIAS", unique = true)
+	private String senderAlias;
+	
 
-	@OneToMany
-	private Set<Status> statuslist = new HashSet<>();
-	
-	
-	
-	
-	public Set<Status> getStatuslist() {
-		return statuslist;
+
+
+	public String getRecipientAlias() {
+		return recipientAlias;
 	}
 
-	public void setStatuslist(Set<Status> statuslist) {
-		this.statuslist = statuslist;
+	public void setRecipientAlias(String recipientAlias) {
+		this.recipientAlias = recipientAlias;
+	}
+
+	public String getSenderAlias() {
+		return senderAlias;
+	}
+
+	public void setSenderAlias(String senderAlias) {
+		this.senderAlias = senderAlias;
 	}
 
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -88,13 +96,6 @@ public class Team {
 		this.company = company;
 	}
 
-	public String getAlias() {
-		return alias;
-	}
-
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
 
 	public Set<User> getLeads() {
 		return leads;

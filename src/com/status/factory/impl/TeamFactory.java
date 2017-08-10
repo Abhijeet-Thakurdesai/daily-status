@@ -60,11 +60,12 @@ public class TeamFactory {
 	}
 
 	private void setAlias(TeamDetail detail,Team newTeam) throws TeamModuleException {
-		if (StringUtils.isBlank(detail.getAlias())) {
+		if (StringUtils.isBlank(detail.getRecipientalias())) {
 			throw new TeamModuleException(errorCode.getError(StatusErrorCode.alias_name_required));
 		}
 
-		newTeam.setAlias(detail.getAlias());
+		newTeam.setRecipientAlias(detail.getRecipientalias());
+		newTeam.setSenderAlias(detail.getSenderalias());
 	}
 
 	private void setTeamLeaders(TeamDetail detail, Team newTeam) throws TeamModuleException {

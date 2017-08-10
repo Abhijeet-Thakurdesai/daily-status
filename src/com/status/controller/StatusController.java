@@ -36,8 +36,11 @@ public class StatusController {
 	//for checking of method getTeam 
 	@RequestMapping(value="/vll",method = RequestMethod.GET)
 	@ResponseBody
-	public String getTeam(){
-		return statusSvc.getTeam("abc@gmail").getName();
+	public void getTeam(){
+	//	return statusSvc.getTeam("dev_status@krishagni.com").getName();
+		statusSvc.check();
+		
+		return;
 	}
 	
 	
